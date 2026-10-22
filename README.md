@@ -40,29 +40,7 @@ TX and RX cross over: the HC-12's TXD goes to the Nano's RX (D0) and its RXD goe
 
 The sender sees three wires from the 12 V system: a constant +12 V and two switched grounds. Each switched ground drives one PC817 photocoupler, so the Nano has no electrical connection to the 12 V system. Build the circuit twice, once per channel.
 
-```
-   12 V SYSTEM SIDE                          |      NANO SIDE
-                                             |
-                                             |           +5 V
-                                             |            |
-                                             |    (internal pull-up,
-                                             |     INPUT_PULLUP)
-                                             |            |
-                  +--[ R1 2.2k ]--+          |            +----------- D6 (D7 for ch. 2)
-                  |               |          |            |
-  +12 V ----------+               |          |        C (pin 4)
-                                  A (pin 1)  |            |
-                                  |          |         |/
-                               PC817 LED --> | - - - - |   phototransistor
-                                  |          |         |>
-                                  K (pin 2)  |            |
-                                  |          |        E (pin 3)
-  Switched   ---------------------+          |            |
-  ground wire                                |           GND (Nano)
-  (to 12 V ground when switch closes)        |
-
-  D1 1N4148 across the LED, reversed: cathode to pin 1 (A), anode to pin 2 (K).
-```
+![Sender input schematic: +12 V through R1 to the PC817 LED, D1 across the LED, switched ground on the cathode, phototransistor pulling D6/D7 low](docs/images/sender-input.svg)
 
 | Part | Value | Notes |
 |---|---|---|
@@ -92,26 +70,7 @@ Isolation rules:
 
 The lamp has two switched +12 V wires and one shared ground, so each +12 V wire is switched on the high side with a TIP125 (PNP Darlington). A TIP125 cannot be driven straight from a 5 V pin: its emitter sits at 12 V, so 5 V on the base would leave it on. A small NPN transistor pulls the base down instead. Build the circuit twice, once per wire.
 
-```
-  +12 V (fused)
-      |
-      |  Q1 TIP125 (PNP)
-      |  E (pin 3)
-      |/
-      |        B (pin 1) ---+
-      |\                    |
-      |  C (pin 2)          |
-      |                  [ R2 2.2 kΩ ]
-      +---> lamp wire       |
-           (switched        |  Q2 2N3904 (NPN)
-            +12 V)          |  C (pin 3)
-                            |/
-  Nano D6 / D7 --[ R1 1 kΩ ]--- B (pin 2)
-                            |>
-                            |  E (pin 1)
-                            |
-                           GND
-```
+![Receiver output schematic: TIP125 high-side switch driven by a 2N3904 from D6/D7](docs/images/receiver-output.svg)
 
 Lamp wire 1 uses D6 and lamp wire 2 uses D7. The lamp's shared ground, the 12 V supply ground and the Nano GND must all be connected.
 
