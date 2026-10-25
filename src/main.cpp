@@ -15,8 +15,7 @@
 #endif
 
 constexpr uint8_t HC12_SET_PIN = 2; // LOW = AT command mode
-constexpr uint8_t LIGHT_A_PIN = 6;
-constexpr uint8_t LIGHT_B_PIN = 7;
+
 constexpr uint8_t DEBUG_PIN = A0; // sender only, LOW = debug mode
 
 constexpr unsigned long HC12_BAUD = 38400;
@@ -105,6 +104,9 @@ static void configureHc12() {
 
 #if defined(ROLE_SENDER)
 
+constexpr uint8_t LIGHT_A_PIN = 6;
+constexpr uint8_t LIGHT_B_PIN = 7;
+
 uint8_t lastFrame = 0xFF;
 unsigned long lastSend = 0;
 bool debugA = false;
@@ -143,6 +145,9 @@ void loop() {
 }
 
 #else // ROLE_RECEIVER
+
+constexpr uint8_t LIGHT_A_PIN = 3;
+constexpr uint8_t LIGHT_B_PIN = 5;
 
 unsigned long lastRx = 0;
 bool linkUp = false;
