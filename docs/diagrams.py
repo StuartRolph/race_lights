@@ -71,7 +71,7 @@ with schemdraw.Drawing(show=False) as d:
     elm.Line().at(q1.base).tox(2.5)
     elm.Dot().at((7, yb))
 
-    # Nano path: R2 -> Q2 2N3904 (base fed from D6/D7 through R1)
+    # Nano path: R2 -> Q2 2N3904 (base fed from D3/D5 through R1)
     r2 = elm.Resistor().down().at((7, yb)).length(2.2).label('$R_2$\n2.2 kΩ', loc='top')
     q2 = elm.BjtNpn().right().reverse().anchor('collector').at(r2.end).label('$Q_2$\n2N3904', loc='left')
     pin(q2.collector, '3', -.3, -.1)
@@ -80,7 +80,7 @@ with schemdraw.Drawing(show=False) as d:
     elm.Line().down().toy(yg).at(q2.emitter)
     elm.Line().right(.6).at(q2.base)
     elm.Resistor().right().length(2.2).label('$R_1$\n1 kΩ', loc='top')
-    elm.Dot(open=True).fill('#0d1117').label('Nano D6 (D7)', loc='right')
+    elm.Dot(open=True).fill('#0d1117').label('Nano D3 (D5)', loc='right')
 
     # Wired backup path: R4 -> U1 PC817 (LED driven from the wired source)
     r4 = elm.Resistor().down().at((2.5, yb)).length(2).label('$R_4$\n4.7 kΩ', loc='bottom')

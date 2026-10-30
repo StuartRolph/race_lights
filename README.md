@@ -71,7 +71,7 @@ Isolation rules:
 
 The lamp has two switched +12 V wires and one shared ground, so each +12 V wire is switched on the high side with a TIP125 (PNP Darlington). A TIP125 cannot be driven straight from a 5 V pin: its emitter sits at 12 V, so 5 V on the base would leave it on. A small NPN transistor pulls the base down instead.
 
-Each channel also has a **wired backup path**: a PC817 photocoupler, driven by the wired inputs (constant +12 V and a switched ground), that can pull the same TIP125 base down. It needs no Arduino and no firmware. The wired path sits in parallel with the Arduino path, so a lamp wire is on if either path asks for it. Build the circuit twice, once per lamp wire (channel A uses D6, channel B uses D7).
+Each channel also has a **wired backup path**: a PC817 photocoupler, driven by the wired inputs (constant +12 V and a switched ground), that can pull the same TIP125 base down. It needs no Arduino and no firmware. The wired path sits in parallel with the Arduino path, so a lamp wire is on if either path asks for it. Build the circuit twice, once per lamp wire (channel A uses D3, channel B uses D5).
 
 ![Receiver output schematic: TIP125 high-side switch whose base is pulled down by either a 2N3904 driven from the Nano (R1, R2) or a PC817 photocoupler driven by the wired inputs (R3, R4, D1)](docs/images/receiver-output.svg)
 
@@ -99,7 +99,7 @@ How it behaves:
 - **Wired path, switched ground closed:** current flows through the PC817 LED, its transistor saturates and pulls the TIP125 base down through R4, and the lamp wire gets +12 V.
 - **Wired path, switched ground open:** the PC817 is off and releases the base.
 - The paths are OR-ed, so the lamp stays on while either asks for it. The wired path works with the Nano unplugged or unpowered, since it uses only the receiver's 12 V supply, the PC817 and the TIP125.
-- Because they are OR-ed, the wired side cannot force a lamp off while the Nano holds its output HIGH (for example, a crashed Arduino). Unplug the Nano or its D6/D7 wires to remove it from the circuit completely.
+- Because they are OR-ed, the wired side cannot force a lamp off while the Nano holds its output HIGH (for example, a crashed Arduino). Unplug the Nano or its D3/D5 wires to remove it from the circuit completely.
 
 Notes:
 - A Darlington never turns fully on, so it drops about 1 V at 200 mA and the lamp sees about 11 V, slightly dim.
@@ -114,7 +114,7 @@ Uses [PlatformIO](https://platformio.org/). Environments:
 | Env | Purpose |
 |---|---|
 | `sender` | Reads D6/D7 and transmits |
-| `receiver` | Receives and drives D6/D7 |
+| `receiver` | Receives and drives D3/D5 |
 
 ```
 pio run -e sender -t upload
