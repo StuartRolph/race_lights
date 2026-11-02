@@ -11,7 +11,7 @@ Wireless link for a pair of LED lights using two Arduino Nanos and two HC-12 rad
 
 - 2 × Arduino Nano (ATmega328P)
 - 2 × HC-12 module, with antennas
-- 2 × 100 µF (or larger) electrolytic capacitor, one per HC-12
+- 2 × 22 µF (or larger) electrolytic capacitor, one per HC-12
 - 2 × TIP125 transistor, 2 × 2N3904 NPN, 2 × 1 kΩ and 2 × 2.2 kΩ resistor (receiver lamp drivers)
 - 2 × PC817 photocoupler, 2 × 2.2 kΩ (R3), 2 × 4.7 kΩ (R4) resistor and 2 × 1N4148 diode (receiver wired backup)
 - 12 V lamp with two switched +12 V wires (about 200 mA each) and a shared ground (receiver), and a 12 V supply with a 1 A fuse
@@ -32,7 +32,7 @@ Wireless link for a pair of LED lights using two Arduino Nanos and two HC-12 rad
      |       SET |---------------| D2           |
      +-----------+               +--------------+
 
-     100 µF cap across HC-12 VCC (+) and GND (-), close to the module.
+     22 µF cap across HC-12 VCC (+) and GND (-), close to the module.
 ```
 
 TX and RX cross over: the HC-12's TXD goes to the Nano's RX (D0) and its RXD goes to the Nano's TX (D1).
@@ -66,6 +66,8 @@ Isolation rules:
 - Do **not** connect the 12 V system ground to the Nano GND.
 - Power the sender Nano from its own supply (USB or a battery pack). Powering it from the 12 V system through VIN defeats the isolation.
 - For a noisy or automotive supply, add a fuse and a TVS diode (for example SMBJ15A) on the +12 V input.
+
+![Sender circuit connections](docs/images/sender.png)
 
 ### Receiver outputs (12 V lamp, TIP125 high-side switch, wired backup)
 
@@ -106,6 +108,8 @@ Notes:
 - A cold incandescent filament draws several times its running current for a few milliseconds. Use a supply rated for at least 1 A and put a fuse of about 1 A on the +12 V feed.
 - The Nano can run from the same 12 V supply through VIN, though a small 12 V to 5 V buck converter on the 5 V pin runs cooler.
 - Each wireless output goes HIGH when the matching sender input is active (switched ground closed).
+
+![Receiver circuit connections](docs/images/receiver.png)
 
 ## Building and flashing
 

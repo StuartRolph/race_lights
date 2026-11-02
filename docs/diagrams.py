@@ -26,26 +26,26 @@ with schemdraw.Drawing(show=False) as d:
     elm.Line().left(.6).at(oc.anode).dot()
     a = d.here
     elm.Resistor().up().label('$R_1$\n2.2 kΩ', loc='top')
-    elm.Dot(open=True).fill('#0d1117').label('+12 V', loc='right')
+    elm.Dot(open=True).fill('#0d1117').label('IN +12 V', loc='right')
     elm.Line().left(.6).at(oc.cathode).dot()
     k = d.here
     elm.Line().down(1)
-    elm.Dot(open=True).fill('#0d1117').label('Switched\nground wire', loc='right')
+    elm.Dot(open=True).fill('#0d1117').label('IN Switched\nGND', loc='right')
     # D1 across the LED, reversed: cathode on the anode (pin 1) side
     elm.Line().left(1.3).at(a)
     elm.Diode().down().reverse().toy(k).label('$D_1$\n1N4148', loc='top')
     elm.Line().tox(k)
     pin(oc.anode, '1', -.3, .2)
-    pin(oc.cathode, '2', -.3, -.2)
-    pin(oc.emitter, '3', .2, .15)
-    pin(oc.collector, '4', .2, -.15)
+    pin(oc.cathode, '2', -.3, -.3)
+    pin(oc.emitter, '3', .2, -.3)
+    pin(oc.collector, '4', .2, .2)
     # Nano side
     elm.Line().up(.6).at(oc.collector).dot()
     c = d.here
     elm.Line().right(1.2)
     elm.Dot(open=True).fill('#0d1117').label('Nano D6 (D7)', loc='right')
-    elm.Resistor().up().at(c).label('internal\npull-up', loc='bottom')
-    elm.Vdd().label('+5 V')
+    # elm.Resistor().up().at(c).label('internal\npull-up', loc='bottom')
+    # elm.Vdd().label('+5 V')
     elm.Line().down(.5).at(oc.emitter)
     elm.Ground()
 save(d, 'sender-input')
@@ -62,7 +62,7 @@ with schemdraw.Drawing(show=False) as d:
     pin(q1.collector, '2', .2, -.15)
     pin(q1.emitter, '3', .2, .15)
     elm.Line().up(.8).at(q1.emitter)
-    elm.Vdd().label('+12 V (fused)\nreceiver supply')
+    elm.Vdd().label('+12 V\nsupply')
     elm.Line().down(.8).at(q1.collector)
     elm.Line().right(1.5)
     elm.Dot(open=True).fill('#0d1117').label('Lamp wire\n(switched +12 V)', loc='right')
@@ -85,10 +85,10 @@ with schemdraw.Drawing(show=False) as d:
     # Wired backup path: R4 -> U1 PC817 (LED driven from the wired source)
     r4 = elm.Resistor().down().at((2.5, yb)).length(2).label('$R_4$\n4.7 kΩ', loc='bottom')
     u1 = elm.Optocoupler(color='white').right().anchor('collector').at(r4.end).label('U1 PC817', loc='top', ofst=.3)
-    pin(u1.anode, '1', -.3, .2)
+    pin(u1.anode, '1', -.3, .3)
     pin(u1.cathode, '2', -.3, -.2)
-    pin(u1.emitter, '3', .2, .15)
-    pin(u1.collector, '4', .2, -.15)
+    pin(u1.emitter, '3', .2, -.2)
+    pin(u1.collector, '4', .2, .3)
     elm.Line().down().toy(yg).at(u1.emitter)
 
     # wired source side
@@ -97,17 +97,17 @@ with schemdraw.Drawing(show=False) as d:
     na = d.here
     elm.Resistor().left().length(2).label('$R_3$\n2.2 kΩ', loc='top')
     elm.Line().left(.5)
-    elm.Dot(open=True).fill('#0d1117').label('Wired +12 V', loc='left')
+    elm.Dot(open=True).fill('#0d1117').label('Bkup +12 V', loc='left')
     elm.Line().left(.6).at(u1.cathode)
     elm.Dot()
     nk = d.here
     elm.Line().left(2.5)
-    elm.Dot(open=True).fill('#0d1117').label('Wired switched\nground wire', loc='left')
+    elm.Dot(open=True).fill('#0d1117').label('Bkup switched\nGND', loc='left')
     elm.Diode().at(nk).up().toy(na).label('$D_1$\n1N4148', loc='top')
 
     # ground rail
     elm.Line().at((2.5, yg)).tox(q2.emitter[0])
     elm.Ground().at((5, yg))
     elm.Dot().at((5, yg))
-    elm.Label().at((5, yg - 1.4)).label('receiver 12 V ground\n(lamp ground, Nano GND)', fontsize=10)
+    elm.Label().at((5, yg - 1.4)).label('receiver GND\n(lamp GND, Nano GND)', fontsize=10)
 save(d, 'receiver-output')
